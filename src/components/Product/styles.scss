@@ -1,0 +1,34 @@
+.product {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: var(--darken-white);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.12rem 0.75rem rgba(0, 0, 0, 0.04);
+  padding: 0.8rem 1.5em;
+
+  .product-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    color: var(--text-color);
+
+    button {
+      width: 1.5rem;
+      height: 1.5rem;
+
+      .checked {
+        color: var(--primary-color);
+      }
+    }
+  }
+
+  button {
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    color: var(--darken-grey);
+  }
+}

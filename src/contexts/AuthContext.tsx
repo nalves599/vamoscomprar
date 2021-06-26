@@ -1,10 +1,17 @@
 import { createContext, ReactNode, useEffect, useState } from 'react'
-import { auth, firebase } from '../services/firebase'
+import { toast } from 'react-toastify'
+import { auth, firebase, database } from '../services/firebase'
+
+type ListCode = {
+  id: string
+  listCode: string
+}
 
 type User = {
   id: string
   name: string
   avatar: string
+  listsCodes: ListCode[]
 }
 
 type AuthContextType = {
@@ -29,11 +36,29 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         if (!displayName || !photoURL)
           throw new Error('Missing informations from Google Account!')
 
-        setUser({
-          id: uid,
-          name: displayName,
-          avatar: photoURL,
-        })
+        database
+          .ref(`/users/${uid}/lists`)
+          .get()
+          .then((userListsRef) => {
+            let listsCodes = [] as ListCode[]
+
+            if (userListsRef.exists())
+              listsCodes = Object.entries(userListsRef.val()).map(
+                ([key, listCode]) => {
+                  return {
+                    id: key,
+                    listCode: String(listCode),
+                  }
+                }
+              )
+
+            setUser({
+              id: uid,
+              name: displayName,
+              avatar: photoURL,
+              listsCodes,
+            })
+          })
       }
     })
 
@@ -50,14 +75,34 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     if (result.user) {
       const { displayName, photoURL, uid } = result.user
 
-      if (!displayName || !photoURL)
+      if (!displayName || !photoURL) {
+        toast.error('Necessita de fotografia e nome na sua conta Google')
         throw new Error('Missing informations from Google Account!')
+      }
 
-      setUser({
-        id: uid,
-        name: displayName,
-        avatar: photoURL,
-      })
+      database
+        .ref(`/users/${uid}/lists`)
+        .get()
+        .then((userListsRef) => {
+          let listsCodes = [] as ListCode[]
+
+          if (userListsRef.exists())
+            listsCodes = Object.entries(userListsRef.val()).map(
+              ([key, listCode]) => {
+                return {
+                  id: key,
+                  listCode: String(listCode),
+                }
+              }
+            )
+
+          setUser({
+            id: uid,
+            name: displayName,
+            avatar: photoURL,
+            listsCodes,
+          })
+        })
     }
   }
 
