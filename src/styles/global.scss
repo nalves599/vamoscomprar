@@ -24,5 +24,10 @@ body,
 input,
 button,
 textarea {
+  @media (max-width: 768px) {
+    font: 400 14px 'Roboto', sans-serif;
+  }
+
   font: 400 16px 'Roboto', sans-serif;
+  border: 0;
 }

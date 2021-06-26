@@ -1,0 +1,138 @@
+#page-auth {
+  height: 100vh;
+
+  display: flex;
+  align-items: stretch;
+
+  aside {
+    @media (max-width: 1024px) {
+      display: none;
+    }
+
+    padding: 3rem 2rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 6;
+    gap: 0.75rem;
+
+    background-color: var(--primary-color);
+    color: var(--white);
+
+    img {
+      max-width: 30rem;
+    }
+
+    strong {
+      line-height: 2.6rem;
+      font: 700 2.6rem 'Montserrat', sans-serif;
+    }
+
+    p {
+      font-size: 1.5rem;
+      line-height: 1.75rem;
+      color: var(--darken-white);
+    }
+  }
+
+  main {
+    padding: 0 2rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 9;
+  }
+
+  .main-content {
+    width: 100%;
+    max-width: 20rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    gap: 1rem;
+
+    > img {
+      align-self: center;
+    }
+
+    form {
+      input {
+        height: 3.2rem;
+        padding: 0 2rem;
+
+        background-color: var(--white);
+        border: 1px solid var(--grey);
+        border-radius: 0.5rem;
+      }
+
+      button {
+        margin-top: 1rem;
+      }
+
+      button,
+      input {
+        width: 100%;
+      }
+    }
+
+    p {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+
+      color: var(--grey);
+
+      a {
+        color: var(--primary-color);
+      }
+    }
+  }
+
+  .sign-in {
+    height: 3.2rem;
+
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+
+    font-weight: 500;
+    background-color: transparent;
+    color: var(--text-color);
+    border: 1px solid var(--grey);
+    border-radius: 0.5rem;
+    cursor: pointer;
+
+    transition: filter 0.2s;
+
+    &:hover {
+      filter: brightness(0.9);
+    }
+  }
+
+  .separator {
+    display: flex;
+    align-items: center;
+
+    font-size: 0.9rem;
+    color: var(--grey);
+
+    &::before {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--grey);
+      margin-right: 0.5rem;
+    }
+    &::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--grey);
+      margin-left: 0.5rem;
+    }
+  }
+}
