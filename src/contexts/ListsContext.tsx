@@ -53,7 +53,7 @@ export function ListsContextProvider({ children }: ListsContextProviderProps) {
   const { user } = useAuth()
 
   useEffect(() => {
-    const databaseRefs = user?.listsCodes.map((listCode) => {
+    const databaseRefs = user?.lists.map((listCode) => {
       const databaseRef = database.ref(`lists/${listCode}`)
 
       databaseRef.on('value', (list) => {
@@ -61,17 +61,21 @@ export function ListsContextProvider({ children }: ListsContextProviderProps) {
         const firebaseList: FirebaseList = databaseList ?? {}
         let missingProducts = 0
 
-        const products = Object.entries(firebaseList.products).map(
+        const products = Object.entries(firebaseList.products || {}).map(
           ([key, value]) => {
             if (!value.isChecked) missingProducts++
-            return { id: key, name: value.name, isChecked: value.isChecked }
+            return {
+              id: key,
+              name: value.name,
+              isChecked: value.isChecked,
+            }
           }
         )
 
         setLists((lists) => {
           return {
             ...lists,
-            [listCode.listCode]: {
+            [listCode]: {
               author: firebaseList.author,
               title: firebaseList.title,
               users: firebaseList.users,
@@ -83,13 +87,14 @@ export function ListsContextProvider({ children }: ListsContextProviderProps) {
           }
         })
       })
+
       return databaseRef
     })
 
     return () => {
-      databaseRefs?.map((databaseRef) => databaseRef.off('value'))
+      databaseRefs?.forEach((databaseRef) => databaseRef.off('value'))
     }
-  }, [user?.listsCodes])
+  }, [user?.lists])
 
   return (
     <ListsContext.Provider value={{ lists }}>{children}</ListsContext.Provider>

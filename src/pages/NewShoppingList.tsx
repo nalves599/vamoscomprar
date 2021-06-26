@@ -20,13 +20,18 @@ export function NewShoppingList() {
 
     if (listName.trim() === '') return
 
-    const listsRef = database.ref('lists') // Reference to collection
-    const firebaseList = await listsRef.push({
-      title: listName,
-      authorId: user?.id,
-    })
+    if (user) {
+      const listsRef = database.ref('lists') // Reference to collection
+      const firebaseList = await listsRef.push({
+        title: listName,
+        author: { id: user.id, name: user.name, avatar: user.avatar },
+      })
+      await database
+        .ref(`/users/${user.id}/lists/${firebaseList.key}`)
+        .set(listName)
 
-    history.push(`/lists/${firebaseList.key}`)
+      history.push(`/lists/${firebaseList.key}`)
+    }
   }
 
   return (

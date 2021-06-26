@@ -2,16 +2,11 @@ import { createContext, ReactNode, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { auth, firebase, database } from '../services/firebase'
 
-type ListCode = {
-  id: string
-  listCode: string
-}
-
 type User = {
   id: string
   name: string
   avatar: string
-  listsCodes: ListCode[]
+  lists: string[]
 }
 
 type AuthContextType = {
@@ -36,29 +31,19 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         if (!displayName || !photoURL)
           throw new Error('Missing informations from Google Account!')
 
-        database
-          .ref(`/users/${uid}/lists`)
-          .get()
-          .then((userListsRef) => {
-            let listsCodes = [] as ListCode[]
+        database.ref(`users/${uid}/lists`).on('value', (userListsRef) => {
+          let listsCodes: string[] = []
 
-            if (userListsRef.exists())
-              listsCodes = Object.entries(userListsRef.val()).map(
-                ([key, listCode]) => {
-                  return {
-                    id: key,
-                    listCode: String(listCode),
-                  }
-                }
-              )
+          if (userListsRef.exists())
+            listsCodes = Object.entries(userListsRef.val()).map(([key]) => key)
 
-            setUser({
-              id: uid,
-              name: displayName,
-              avatar: photoURL,
-              listsCodes,
-            })
+          setUser({
+            id: uid,
+            name: displayName,
+            avatar: photoURL,
+            lists: listsCodes,
           })
+        })
       }
     })
 
@@ -80,29 +65,19 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         throw new Error('Missing informations from Google Account!')
       }
 
-      database
-        .ref(`/users/${uid}/lists`)
-        .get()
-        .then((userListsRef) => {
-          let listsCodes = [] as ListCode[]
+      database.ref(`users/${uid}/lists`).on('value', (userListsRef) => {
+        let listsCodes: string[] = []
 
-          if (userListsRef.exists())
-            listsCodes = Object.entries(userListsRef.val()).map(
-              ([key, listCode]) => {
-                return {
-                  id: key,
-                  listCode: String(listCode),
-                }
-              }
-            )
+        if (userListsRef.exists())
+          listsCodes = Object.entries(userListsRef.val()).map(([key]) => key)
 
-          setUser({
-            id: uid,
-            name: displayName,
-            avatar: photoURL,
-            listsCodes,
-          })
+        setUser({
+          id: uid,
+          name: displayName,
+          avatar: photoURL,
+          lists: listsCodes,
         })
+      })
     }
   }
 

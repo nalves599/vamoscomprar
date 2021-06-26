@@ -15,9 +15,9 @@ export function Product({ name, isChecked, children }: ProductProps) {
       <div className="product-content">
         <button type="button">
           {isChecked ? (
-            <RiCheckboxCircleLine className="checked" size="1.5rem" />
+            <RiCheckboxCircleLine className="checked" />
           ) : (
-            <RiCheckboxBlankCircleLine size="1.5rem" />
+            <RiCheckboxBlankCircleLine />
           )}
         </button>
         <p>{name}</p>

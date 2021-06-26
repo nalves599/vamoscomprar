@@ -1,10 +1,8 @@
 import { useContext } from 'react'
 import { ListsContext } from '../contexts/ListsContext'
 
-export function useList(listCode: string) {
-  const { lists } = useContext(ListsContext)
+export function useList() {
+  const value = useContext(ListsContext)
 
-  const list = lists[listCode]
-
-  return list
+  return value
 }
