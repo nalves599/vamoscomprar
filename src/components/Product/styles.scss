@@ -16,9 +16,6 @@
     color: var(--text-color);
 
     button {
-      width: 1.5rem;
-      height: 1.5rem;
-
       .checked {
         color: var(--primary-color);
       }
@@ -26,9 +23,18 @@
   }
 
   button {
+    width: 1.5rem;
+    height: 1.5rem;
+
     border: 0;
     background: transparent;
     cursor: pointer;
     color: var(--darken-grey);
+
+    img,
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
   }
 }

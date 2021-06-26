@@ -6,14 +6,20 @@ import './styles.scss'
 type ProductProps = {
   name: string
   isChecked: boolean
+  onToggleCheck: () => Promise<void>
   children?: ReactNode
 }
 
-export function Product({ name, isChecked, children }: ProductProps) {
+export function Product({
+  name,
+  isChecked,
+  children,
+  onToggleCheck,
+}: ProductProps) {
   return (
     <div className="product">
       <div className="product-content">
-        <button type="button">
+        <button type="button" onClick={onToggleCheck}>
           {isChecked ? (
             <RiCheckboxCircleLine className="checked" />
           ) : (

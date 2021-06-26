@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
-import { RiAddCircleLine } from 'react-icons/ri'
+import { RiAddCircleLine, RiDeleteBin7Line } from 'react-icons/ri'
 
 import { useList } from '../hooks/useList'
 import { ListCode } from '../components/ListCode'
@@ -123,9 +123,21 @@ export function ShoppingList() {
       (list.author.id === user.id ||
         list.users.find((value) => user.id === value.id))
     ) {
-      await database.ref(`lists/${listId}/products`).push({ name: newProduct })
+      await database
+        .ref(`lists/${listId}/products`)
+        .push({ name: newProduct, isChecked: false })
       setNewProduct('')
     }
+  }
+
+  async function handleToogleCheck(productId: string, isChecked: boolean) {
+    await database
+      .ref(`lists/${listId}/products/${productId}`)
+      .update({ isChecked: !isChecked })
+  }
+
+  async function handleDeleteProduct(productId: string) {
+    await database.ref(`lists/${listId}/products/${productId}`).remove()
   }
 
   return (
@@ -161,7 +173,19 @@ export function ShoppingList() {
 
           <div className="product-list">
             {list?.toCheckProducts.map((product) => (
-              <Product key={product.id} name={product.name} isChecked={false} />
+              <Product
+                key={product.id}
+                name={product.name}
+                isChecked={false}
+                onToggleCheck={() => handleToogleCheck(product.id, false)}
+              >
+                <button
+                  type="button"
+                  onClick={() => handleDeleteProduct(product.id)}
+                >
+                  <RiDeleteBin7Line />
+                </button>
+              </Product>
             ))}
           </div>
           {list && list.checkedProducts.length > 0 && (
@@ -169,7 +193,12 @@ export function ShoppingList() {
               <div className="separator">Produtos adquiridos</div>
               <div className="product-list">
                 {list.checkedProducts.map((product) => (
-                  <Product key={product.id} name={product.name} isChecked />
+                  <Product
+                    key={product.id}
+                    name={product.name}
+                    isChecked
+                    onToggleCheck={() => handleToogleCheck(product.id, true)}
+                  />
                 ))}
               </div>
             </>
