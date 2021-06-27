@@ -60,10 +60,19 @@ export function ShoppingList() {
   const { user } = useAuth()
   const [isModalOpen, setModalOpen] = useState<boolean>(false)
   const [newUserId, setNewUserId] = useState<string>('')
+  const [isDisabled, setIsDisabled] = useState<boolean>(true)
 
   const listId = params.listId
 
   const { lists } = useList()
+
+  useEffect(() => {
+    setIsDisabled(
+      !user ||
+        (list?.author.id !== user?.id &&
+          !list?.users.find((val) => val.id === user?.id))
+    )
+  }, [user, list])
 
   useEffect(() => {
     async function handleList() {
@@ -203,16 +212,9 @@ export function ShoppingList() {
               placeholder="Insira o nome do produto"
               onChange={(event) => setNewProduct(event.target.value)}
               value={newProduct}
-              disabled={
-                !user || !list?.users.find((val) => val.id === user?.id)
-              }
+              disabled={isDisabled}
             />
-            <Button
-              type="submit"
-              disabled={
-                !user || !list?.users.find((val) => val.id === user?.id)
-              }
-            >
+            <Button type="submit" disabled={!user}>
               <RiAddCircleLine />
               Adicionar produto
             </Button>
@@ -221,17 +223,13 @@ export function ShoppingList() {
           <div className="product-list">
             {list?.toCheckProducts.map((product) => (
               <Product
-                disabled={
-                  !user || !list?.users.find((val) => val.id === user?.id)
-                }
+                disabled={isDisabled}
                 key={product.id}
                 name={product.name}
                 isChecked={false}
                 onToggleCheck={() => handleToogleCheck(product.id, false)}
               >
-                {!(
-                  !user || !list?.users.find((val) => val.id === user?.id)
-                ) && (
+                {!isDisabled && (
                   <button
                     type="button"
                     onClick={() => handleDeleteProduct(product.id)}
@@ -251,9 +249,7 @@ export function ShoppingList() {
                     key={product.id}
                     name={product.name}
                     isChecked
-                    disabled={
-                      !user || !list?.users.find((val) => val.id === user?.id)
-                    }
+                    disabled={isDisabled}
                     onToggleCheck={() => handleToogleCheck(product.id, true)}
                   />
                 ))}
@@ -292,7 +288,9 @@ export function ShoppingList() {
             onChange={(event) => setNewUserId(event.target.value)}
             value={newUserId}
           />
-          <Button type="submit">Adicionar utilizador</Button>
+          <Button type="submit" disabled={isDisabled}>
+            Adicionar utilizador
+          </Button>
         </form>
       </Modal>
     </div>
