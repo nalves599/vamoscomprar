@@ -40,6 +40,7 @@ type FirebaseList = {
 
 type ListsContextType = {
   lists: Record<string, ShoppingList>
+  removeList: (listId: string) => Promise<void>
 }
 
 type ListsContextProviderProps = {
@@ -50,7 +51,17 @@ export const ListsContext = createContext({} as ListsContextType)
 
 export function ListsContextProvider({ children }: ListsContextProviderProps) {
   const [lists, setLists] = useState<Record<string, ShoppingList>>({})
-  const { user } = useAuth()
+  const { user, removeUserList } = useAuth()
+
+  async function removeList(listId: string) {
+    if (lists[listId]) {
+      database.ref(`lists/${listId}`).off('value')
+      await database.ref(`lists/${listId}`).remove()
+      await database.ref(`users/${user?.id}/lists/${listId}`).remove()
+      removeUserList(listId)
+      window.location.reload() // TODO: Fix this
+    }
+  }
 
   useEffect(() => {
     const databaseRefs = user?.lists.map((listCode) => {
@@ -97,6 +108,8 @@ export function ListsContextProvider({ children }: ListsContextProviderProps) {
   }, [user?.lists])
 
   return (
-    <ListsContext.Provider value={{ lists }}>{children}</ListsContext.Provider>
+    <ListsContext.Provider value={{ lists, removeList }}>
+      {children}
+    </ListsContext.Provider>
   )
 }

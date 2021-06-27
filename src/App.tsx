@@ -8,6 +8,7 @@ import { NewShoppingList } from './pages/NewShoppingList'
 import { ShoppingList } from './pages/ShoppingList'
 
 import 'react-toastify/dist/ReactToastify.css'
+import { UserLists } from './pages/UserLists'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <ListsContextProvider>
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route exact path="/lists" component={UserLists} />
             <Route exact path="/lists/new" component={NewShoppingList} />
             <Route path="/lists/:listId" component={ShoppingList} />
           </Switch>

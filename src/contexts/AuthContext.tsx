@@ -12,6 +12,7 @@ type User = {
 type AuthContextType = {
   user: User | undefined
   signInWithGoogle: () => Promise<void>
+  removeUserList: (listId: string) => void
 }
 
 type AuthContextProviderProps = {
@@ -21,7 +22,14 @@ type AuthContextProviderProps = {
 export const AuthContext = createContext({} as AuthContextType)
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
-  const [user, setUser] = useState<User>()
+  const [user, setUser] = useState<User | undefined>()
+
+  function removeUserList(listId: string) {
+    if (user?.lists) {
+      const lists = user?.lists.filter((list) => list !== listId)
+      setUser({ ...user, lists })
+    }
+  }
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -82,7 +90,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, signInWithGoogle }}>
+    <AuthContext.Provider value={{ user, signInWithGoogle, removeUserList }}>
       {children}
     </AuthContext.Provider>
   )

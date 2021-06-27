@@ -1,0 +1,64 @@
+#page-user-lists {
+  header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--divider);
+
+    .content {
+      max-width: 70rem;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      > img {
+        max-height: 3.5rem;
+      }
+
+      > div {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+
+        button {
+          height: 3rem;
+        }
+      }
+    }
+  }
+
+  main {
+    max-width: 50rem;
+    margin: 0 auto;
+
+    .list-title {
+      margin: 2rem 0 1.5rem;
+      display: flex;
+      align-items: center;
+
+      h1 {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.5rem;
+        color: var(--text-color);
+      }
+
+      span {
+        margin-left: 1rem;
+        background-color: var(--primary-color);
+        border-radius: 100rem;
+        padding: 0.5em 1em;
+        color: var(--white);
+        font-weight: 500;
+        font-size: 0.9rem;
+      }
+    }
+
+    .main-content {
+      @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+      }
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 0.5rem;
+    }
+  }
+}
