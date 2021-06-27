@@ -10,9 +10,15 @@ type UserCodeProps = {
 
 export function UserCode(props: UserCodeProps) {
   function copyUserCodeToClipboard() {
-    navigator.clipboard.writeText(props.code)
-    toast.info('Código do utilizador copiado')
+    try {
+      navigator.clipboard.writeText(props.code)
+      toast.info('Código do utilizador copiado')
+    } catch (err) {
+      toast.warn('Erro ao copiar código')
+      toast.info('O código do utilizador é ' + props.code)
+    }
   }
+
   return (
     <button className="user-code" onClick={copyUserCodeToClipboard}>
       <div>

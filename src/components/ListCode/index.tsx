@@ -9,8 +9,13 @@ type ListCodeProps = {
 
 export function ListCode(props: ListCodeProps) {
   function copyListCodeToClipboard() {
-    navigator.clipboard.writeText(props.code)
-    toast.info('Código da lista copiado')
+    try {
+      navigator.clipboard.writeText(props.code)
+      toast.info('Código da lista copiado')
+    } catch (err) {
+      toast.warn('Erro ao copiar código')
+      toast.info('O código da lista é ' + props.code)
+    }
   }
   return (
     <button className="list-code" onClick={copyListCodeToClipboard}>
