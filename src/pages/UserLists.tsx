@@ -1,5 +1,5 @@
 import React from 'react'
-import { RiLogoutBoxRLine } from 'react-icons/ri'
+import { RiFileAddLine, RiLogoutBoxRLine } from 'react-icons/ri'
 import { useHistory } from 'react-router-dom'
 
 import logoImg from '../assets/images/logo.svg'
@@ -43,8 +43,9 @@ export function UserLists() {
           <img src={logoImg} alt="Vamos Comprar" />
           <div>
             <UserCode code={user?.id || ''} label={user?.name || ''} />
-            <Button isOutlined onClick={handleCreateShoppingList}>
-              Criar lista de compras
+            <Button headerButton isOutlined onClick={handleCreateShoppingList}>
+              <RiFileAddLine />{' '}
+              <span className="text">Criar lista de compras</span>
             </Button>
             <button
               type="button"

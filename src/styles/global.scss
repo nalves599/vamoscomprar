@@ -28,6 +28,20 @@ textarea {
     font: 400 14px 'Roboto', sans-serif;
   }
 
+  @media (max-width: 420px) {
+    font: 400 12px 'Roboto', sans-serif;
+  }
+
   font: 400 16px 'Roboto', sans-serif;
   border: 0;
+}
+
+h1,
+h2,
+h3,
+p,
+span {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }

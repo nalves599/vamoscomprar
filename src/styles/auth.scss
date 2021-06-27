@@ -9,35 +9,35 @@
       display: none;
     }
 
-    padding: 3rem 2rem;
+    padding: 3em 2em;
 
     display: flex;
     flex-direction: column;
     justify-content: center;
     flex: 6;
-    gap: 0.75rem;
+    gap: 0.75em;
 
     background-color: var(--primary-color);
     color: var(--white);
 
     img {
-      max-width: 30rem;
+      max-width: 30em;
     }
 
     strong {
-      line-height: 2.6rem;
-      font: 700 2.6rem 'Montserrat', sans-serif;
+      line-height: 2.6em;
+      font: 700 2.6em 'Montserrat', sans-serif;
     }
 
     p {
-      font-size: 1.5rem;
-      line-height: 1.75rem;
+      font-size: 1.5em;
+      line-height: 1.75em;
       color: var(--darken-white);
     }
   }
 
   main {
-    padding: 0 2rem;
+    padding: 0 2em;
 
     display: flex;
     align-items: center;
@@ -47,35 +47,35 @@
 
   .main-content {
     width: 100%;
-    max-width: 20rem;
+    max-width: 20em;
 
     display: flex;
     flex-direction: column;
     align-items: stretch;
     text-align: center;
-    gap: 1rem;
+    gap: 1em;
 
     > img {
       align-self: center;
     }
 
     h2 {
-      font-size: 1.5rem;
+      font-size: 1.5em;
       font-family: 'Montserrat', sans-serif;
     }
 
     form {
       input {
-        height: 3.2rem;
-        padding: 0 2rem;
+        height: 3.2em;
+        padding: 0 2em;
 
         background-color: var(--white);
         border: 1px solid var(--grey);
-        border-radius: 0.5rem;
+        border-radius: 0.5em;
       }
 
       button {
-        margin-top: 1rem;
+        margin-top: 1em;
       }
 
       button,
@@ -85,7 +85,7 @@
     }
 
     p {
-      font-size: 0.8rem;
+      font-size: 0.8em;
 
       color: var(--grey);
 
@@ -97,10 +97,10 @@
   }
 
   .sign-in {
-    height: 3.2rem;
+    height: 3.2em;
 
     display: flex;
-    gap: 0.5rem;
+    gap: 0.5em;
     justify-content: center;
     align-items: center;
 
@@ -108,7 +108,7 @@
     background-color: transparent;
     color: var(--text-color);
     border: 1px solid var(--grey);
-    border-radius: 0.5rem;
+    border-radius: 0.5em;
     cursor: pointer;
 
     transition: filter 0.2s;
@@ -122,7 +122,7 @@
     display: flex;
     align-items: center;
 
-    font-size: 0.9rem;
+    font-size: 0.9em;
     color: var(--grey);
 
     &::before {
@@ -130,14 +130,14 @@
       flex: 1;
       height: 1px;
       background: var(--grey);
-      margin-right: 0.5rem;
+      margin-right: 0.5em;
     }
     &::after {
       content: '';
       flex: 1;
       height: 1px;
       background: var(--grey);
-      margin-left: 0.5rem;
+      margin-left: 0.5em;
     }
   }
 }

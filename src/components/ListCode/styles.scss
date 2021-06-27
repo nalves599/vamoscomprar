@@ -1,6 +1,6 @@
 .list-code {
-  height: 2.5rem;
-  border-radius: 0.5rem;
+  height: 2.5em;
+  border-radius: 0.5em;
   overflow: hidden;
 
   background: var(--white);
@@ -15,15 +15,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100%;
   }
 
   span {
+    @media (max-width: 768px) {
+      display: none;
+    }
+
     display: block;
     align-self: center;
     flex: 1;
     padding: 0 1em 0 0.75em;
-    max-width: 16rem;
-    font-size: 0.9rem;
+    max-width: 16em;
+    font-size: 0.9em;
     font-weight: 500;
   }
 }

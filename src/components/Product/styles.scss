@@ -4,14 +4,14 @@
   align-items: center;
 
   background-color: var(--darken-white);
-  border-radius: 0.5rem;
-  box-shadow: 0 0.12rem 0.75rem rgba(0, 0, 0, 0.04);
-  padding: 0.8rem 1.5em;
+  border-radius: 0.5em;
+  box-shadow: 0 0.12em 0.75em rgba(0, 0, 0, 0.04);
+  padding: 0.8em 1.5em;
 
   .product-content {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.5em;
 
     color: var(--text-color);
 
@@ -23,8 +23,8 @@
   }
 
   button {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.5em;
+    height: 1.5em;
 
     border: 0;
     background: transparent;
@@ -33,8 +33,8 @@
 
     img,
     svg {
-      width: 1.5rem;
-      height: 1.5rem;
+      width: 1.5em;
+      height: 1.5em;
     }
 
     &:disabled {

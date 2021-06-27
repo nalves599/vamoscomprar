@@ -1,38 +1,38 @@
 #page-user-lists {
   header {
-    padding: 1.5rem;
+    padding: 1.5em;
     border-bottom: 1px solid var(--divider);
 
     .content {
-      max-width: 70rem;
+      max-width: 70em;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
 
       > img {
-        max-height: 3.5rem;
+        max-height: 3.5em;
       }
 
       > div {
         display: flex;
-        gap: 1rem;
+        gap: 1em;
         align-items: center;
 
         button {
-          height: 3rem;
+          height: 3em;
         }
         .exit-button {
-          width: 1.5rem;
-          height: 1.5rem;
+          width: 1.5em;
+          height: 1.5em;
           cursor: pointer;
           background-color: transparent;
           color: var(--darken-grey);
 
           svg,
           img {
-            width: 1.5rem;
-            height: 1.5rem;
+            width: 1.5em;
+            height: 1.5em;
           }
 
           &:hover {
@@ -44,28 +44,29 @@
   }
 
   main {
-    max-width: 50rem;
+    max-width: 50em;
     margin: 0 auto;
+    padding: 0 1.5em;
 
     .list-title {
-      margin: 2rem 0 1.5rem;
+      margin: 2em 0 1.5em;
       display: flex;
       align-items: center;
 
       h1 {
         font-family: 'Montserrat', sans-serif;
-        font-size: 1.5rem;
+        font-size: 1.5em;
         color: var(--text-color);
       }
 
       span {
-        margin-left: 1rem;
+        margin-left: 1em;
         background-color: var(--primary-color);
-        border-radius: 100rem;
+        border-radius: 100em;
         padding: 0.5em 1em;
         color: var(--white);
         font-weight: 500;
-        font-size: 0.9rem;
+        font-size: 0.9em;
       }
     }
 
@@ -75,7 +76,7 @@
       }
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-gap: 0.5rem;
+      grid-gap: 0.5em;
     }
   }
 }

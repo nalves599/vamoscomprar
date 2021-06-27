@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify'
 import copyIcon from '../../assets/images/copy.svg'
 
 import './styles.scss'
@@ -10,6 +11,7 @@ type UserCodeProps = {
 export function UserCode(props: UserCodeProps) {
   function copyUserCodeToClipboard() {
     navigator.clipboard.writeText(props.code)
+    toast.info('Código do utilizador copiado')
   }
   return (
     <button className="user-code" onClick={copyUserCodeToClipboard}>

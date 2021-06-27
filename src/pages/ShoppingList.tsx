@@ -1,6 +1,10 @@
 import { FormEvent, useEffect, useState } from 'react'
 import { useHistory, useParams, Link } from 'react-router-dom'
-import { RiAddCircleLine, RiDeleteBin7Line } from 'react-icons/ri'
+import {
+  RiAddCircleLine,
+  RiDeleteBin7Line,
+  RiUserAddLine,
+} from 'react-icons/ri'
 import Modal from 'react-modal'
 
 import { useList } from '../hooks/useList'
@@ -190,8 +194,13 @@ export function ShoppingList() {
           <div>
             <ListCode code={listId} />
             {user?.id === list?.author.id && (
-              <Button onClick={() => setModalOpen(true)} isOutlined>
-                Adicionar pessoas
+              <Button
+                headerButton
+                onClick={() => setModalOpen(true)}
+                isOutlined
+              >
+                <RiUserAddLine />
+                <span className="text">Adicionar pessoas</span>
               </Button>
             )}
           </div>
@@ -213,9 +222,9 @@ export function ShoppingList() {
               value={newProduct}
               disabled={isDisabled}
             />
-            <Button type="submit" disabled={!user}>
+            <Button headerButton type="submit" disabled={!user}>
               <RiAddCircleLine />
-              Adicionar produto
+              <span className="text">Adicionar produto</span>
             </Button>
           </form>
 
