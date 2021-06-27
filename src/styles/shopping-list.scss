@@ -10,7 +10,7 @@
       justify-content: space-between;
       align-items: center;
 
-      > img {
+      > a img {
         max-height: 3.5rem;
       }
 
@@ -107,6 +107,78 @@
         background: var(--grey);
         margin-left: 0.5rem;
       }
+    }
+  }
+}
+
+#add-user-to-list {
+  margin: auto;
+  height: fit-content;
+  max-width: 33rem;
+  padding: 3rem !important;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+  }
+
+  p {
+    text-align: center;
+  }
+
+  span {
+    font-size: 0.8rem;
+    color: var(--grey);
+  }
+
+  .users-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1rem;
+
+    .user-info {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      img {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+      }
+    }
+  }
+  form {
+    width: 100%;
+
+    input {
+      text-align: center;
+      height: 3.2rem;
+      padding: 0 1rem;
+
+      background-color: var(--white);
+      border: 1px solid var(--grey);
+      border-radius: 0.5rem 0.5rem 0 0;
+    }
+
+    button {
+      border-radius: 0 0 0.5rem 0.5rem;
+    }
+
+    button,
+    input {
+      width: 100%;
     }
   }
 }

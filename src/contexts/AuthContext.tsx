@@ -39,19 +39,26 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         if (!displayName || !photoURL)
           throw new Error('Missing informations from Google Account!')
 
-        database.ref(`users/${uid}/lists`).on('value', (userListsRef) => {
-          let listsCodes: string[] = []
+        database
+          .ref(`users/${uid}`)
+          .update({ name: displayName, avatar: photoURL })
+          .then(() => {
+            database.ref(`users/${uid}/lists`).on('value', (userListsRef) => {
+              let listsCodes: string[] = []
 
-          if (userListsRef.exists())
-            listsCodes = Object.entries(userListsRef.val()).map(([key]) => key)
+              if (userListsRef.exists())
+                listsCodes = Object.entries(userListsRef.val()).map(
+                  ([key]) => key
+                )
 
-          setUser({
-            id: uid,
-            name: displayName,
-            avatar: photoURL,
-            lists: listsCodes,
+              setUser({
+                id: uid,
+                name: displayName,
+                avatar: photoURL,
+                lists: listsCodes,
+              })
+            })
           })
-        })
       }
     })
 
@@ -72,20 +79,26 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         toast.error('Necessita de fotografia e nome na sua conta Google')
         throw new Error('Missing informations from Google Account!')
       }
+      database
+        .ref(`users/${uid}`)
+        .update({ name: displayName, avatar: photoURL })
+        .then(() => {
+          database.ref(`users/${uid}/lists`).on('value', (userListsRef) => {
+            let listsCodes: string[] = []
 
-      database.ref(`users/${uid}/lists`).on('value', (userListsRef) => {
-        let listsCodes: string[] = []
+            if (userListsRef.exists())
+              listsCodes = Object.entries(userListsRef.val()).map(
+                ([key]) => key
+              )
 
-        if (userListsRef.exists())
-          listsCodes = Object.entries(userListsRef.val()).map(([key]) => key)
-
-        setUser({
-          id: uid,
-          name: displayName,
-          avatar: photoURL,
-          lists: listsCodes,
+            setUser({
+              id: uid,
+              name: displayName,
+              avatar: photoURL,
+              lists: listsCodes,
+            })
+          })
         })
-      })
     }
   }
 

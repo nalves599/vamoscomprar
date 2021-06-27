@@ -8,18 +8,20 @@ type ProductProps = {
   isChecked: boolean
   onToggleCheck: () => Promise<void>
   children?: ReactNode
+  disabled: boolean
 }
 
 export function Product({
   name,
   isChecked,
   children,
+  disabled,
   onToggleCheck,
 }: ProductProps) {
   return (
     <div className="product">
       <div className="product-content">
-        <button type="button" onClick={onToggleCheck}>
+        <button type="button" onClick={onToggleCheck} disabled={disabled}>
           {isChecked ? (
             <RiCheckboxCircleLine className="checked" />
           ) : (

@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useState } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import { useHistory, useParams, Link } from 'react-router-dom'
 import { RiAddCircleLine, RiDeleteBin7Line } from 'react-icons/ri'
+import Modal from 'react-modal'
 
 import { useList } from '../hooks/useList'
 import { ListCode } from '../components/ListCode'
@@ -57,6 +58,8 @@ export function ShoppingList() {
   const [newProduct, setNewProduct] = useState<string>('')
   const params = useParams<ShoppingListParams>()
   const { user } = useAuth()
+  const [isModalOpen, setModalOpen] = useState<boolean>(false)
+  const [newUserId, setNewUserId] = useState<string>('')
 
   const listId = params.listId
 
@@ -98,13 +101,18 @@ export function ShoppingList() {
           if (value.isChecked) checked.push(productToAdd)
           else toCheck.push(productToAdd)
         })
+        const users = Object.entries(databaseList.users || {}).map(
+          ([key, value]) => {
+            return { id: key, name: value.name, avatar: value.avatar }
+          }
+        )
         setList({
           title: databaseList.title,
           author: databaseList.author,
           missingProducts: toCheck.length,
           toCheckProducts: toCheck,
           checkedProducts: checked,
-          users: databaseList.users,
+          users: users,
         })
       }
     }
@@ -140,13 +148,44 @@ export function ShoppingList() {
     await database.ref(`lists/${listId}/products/${productId}`).remove()
   }
 
+  async function addUser(event: FormEvent) {
+    event.preventDefault()
+
+    if (newUserId.trim() === '') return
+
+    const databaseUser = await database.ref(`/users/${newUserId}`).get()
+
+    if (!databaseUser.exists()) {
+      toast.error('O ID do utilizado é inválido')
+      return
+    }
+
+    if (newUserId.trim() === user?.id) {
+      toast.warning('Não se preocupe! Você já está na lista :)')
+      return
+    }
+
+    await database.ref(`/users/${newUserId}/lists/${listId}`).set(list?.title)
+    await database.ref(`/lists/${listId}/users/${newUserId}`).update({
+      avatar: databaseUser.val().avatar,
+      name: databaseUser.val().name,
+    })
+  }
+
   return (
     <div id="page-shopping-list">
       <header>
         <div className="content">
-          <img src={logoImg} alt="Vamos Comprar" />
+          <Link to={user ? '/lists' : '/'}>
+            <img src={logoImg} alt="Vamos Comprar" />
+          </Link>
           <div>
             <ListCode code={listId} />
+            {user?.id === list?.author.id && (
+              <Button onClick={() => setModalOpen(true)} isOutlined>
+                Adicionar pessoas
+              </Button>
+            )}
           </div>
         </div>
       </header>
@@ -164,8 +203,16 @@ export function ShoppingList() {
               placeholder="Insira o nome do produto"
               onChange={(event) => setNewProduct(event.target.value)}
               value={newProduct}
+              disabled={
+                !user || !list?.users.find((val) => val.id === user?.id)
+              }
             />
-            <Button type="submit">
+            <Button
+              type="submit"
+              disabled={
+                !user || !list?.users.find((val) => val.id === user?.id)
+              }
+            >
               <RiAddCircleLine />
               Adicionar produto
             </Button>
@@ -174,17 +221,24 @@ export function ShoppingList() {
           <div className="product-list">
             {list?.toCheckProducts.map((product) => (
               <Product
+                disabled={
+                  !user || !list?.users.find((val) => val.id === user?.id)
+                }
                 key={product.id}
                 name={product.name}
                 isChecked={false}
                 onToggleCheck={() => handleToogleCheck(product.id, false)}
               >
-                <button
-                  type="button"
-                  onClick={() => handleDeleteProduct(product.id)}
-                >
-                  <RiDeleteBin7Line />
-                </button>
+                {!(
+                  !user || !list?.users.find((val) => val.id === user?.id)
+                ) && (
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteProduct(product.id)}
+                  >
+                    <RiDeleteBin7Line />
+                  </button>
+                )}
               </Product>
             ))}
           </div>
@@ -197,6 +251,9 @@ export function ShoppingList() {
                     key={product.id}
                     name={product.name}
                     isChecked
+                    disabled={
+                      !user || !list?.users.find((val) => val.id === user?.id)
+                    }
                     onToggleCheck={() => handleToogleCheck(product.id, true)}
                   />
                 ))}
@@ -205,6 +262,39 @@ export function ShoppingList() {
           )}
         </div>
       </main>
+      <Modal
+        shouldCloseOnEsc
+        onRequestClose={() => setModalOpen(false)}
+        ariaHideApp={false}
+        isOpen={isModalOpen}
+        id="add-user-to-list"
+      >
+        <h2>Adicionar utilizador à sua lista</h2>
+        <p>
+          Insira o ID do utilizador que deseja adicionar
+          <br />O seu ID é <strong>{user?.id}</strong>
+        </p>
+        <span>Utilizadores já adicionados</span>
+        <div className="users-list">
+          {list?.users?.map((user) => {
+            return (
+              <div key={user.id} className="user-info">
+                <img src={user.avatar} alt={user.name} />
+                <p>{user.name}</p>
+              </div>
+            )
+          })}
+        </div>
+        <form onSubmit={addUser}>
+          <input
+            type="text"
+            placeholder="Digite o ID"
+            onChange={(event) => setNewUserId(event.target.value)}
+            value={newUserId}
+          />
+          <Button type="submit">Adicionar utilizador</Button>
+        </form>
+      </Modal>
     </div>
   )
 }

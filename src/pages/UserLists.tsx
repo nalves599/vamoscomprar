@@ -2,8 +2,10 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 
 import logoImg from '../assets/images/logo.svg'
+import { Button } from '../components/Button'
 
 import { List } from '../components/List'
+import { UserCode } from '../components/UserCode'
 import { useAuth } from '../hooks/useAuth'
 import { useList } from '../hooks/useList'
 
@@ -13,6 +15,10 @@ export function UserLists() {
   const history = useHistory()
   const { user } = useAuth()
   const { lists, removeList } = useList()
+
+  function handleCreateShoppingList() {
+    history.push('/lists/new')
+  }
 
   function handleGoToShoppingList(listId: string) {
     history.push(`/lists/${listId}`)
@@ -27,7 +33,12 @@ export function UserLists() {
       <header>
         <div className="content">
           <img src={logoImg} alt="Vamos Comprar" />
-          <div></div>
+          <div>
+            <UserCode code={user?.id || ''} label={user?.name || ''} />
+            <Button isOutlined onClick={handleCreateShoppingList}>
+              Criar lista de compras
+            </Button>
+          </div>
         </div>
       </header>
 

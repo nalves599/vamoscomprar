@@ -83,13 +83,19 @@ export function ListsContextProvider({ children }: ListsContextProviderProps) {
           }
         )
 
+        const users = Object.entries(firebaseList.users || {}).map(
+          ([key, value]) => {
+            return { id: key, name: value.name, avatar: value.avatar }
+          }
+        )
+
         setLists((lists) => {
           return {
             ...lists,
             [listCode]: {
               author: firebaseList.author,
               title: firebaseList.title,
-              users: firebaseList.users,
+              users: users,
               missingProducts,
               products,
               productsCount: products.length,
