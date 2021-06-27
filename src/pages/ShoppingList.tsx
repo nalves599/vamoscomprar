@@ -99,8 +99,7 @@ export function ShoppingList() {
         const listRef = await database.ref(`/lists/${listId}`).get()
 
         if (!listRef.exists()) {
-          toast.error('Lista inexistente')
-          setTimeout(() => history.replace('/'), 2000)
+          history.replace('/')
           return
         }
 

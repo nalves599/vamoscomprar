@@ -19,7 +19,15 @@ export function Home() {
   const [listId, setListId] = useState<string>('')
 
   async function handleSignIn() {
-    if (!user) await signInWithGoogle()
+    let userId = user?.id
+    if (!user) userId = await signInWithGoogle()
+
+    const databaseUser = await database.ref(`users/${userId}`).get()
+
+    if (databaseUser.exists()) {
+      history.push('/lists')
+      return
+    }
 
     history.push('/lists/new')
   }

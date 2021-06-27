@@ -22,6 +22,23 @@
         button {
           height: 3rem;
         }
+        .exit-button {
+          width: 1.5rem;
+          height: 1.5rem;
+          cursor: pointer;
+          background-color: transparent;
+          color: var(--darken-grey);
+
+          svg,
+          img {
+            width: 1.5rem;
+            height: 1.5rem;
+          }
+
+          &:hover {
+            color: var(--primary-color);
+          }
+        }
       }
     }
   }

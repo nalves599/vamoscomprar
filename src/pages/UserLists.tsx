@@ -1,4 +1,5 @@
 import React from 'react'
+import { RiLogoutBoxRLine } from 'react-icons/ri'
 import { useHistory } from 'react-router-dom'
 
 import logoImg from '../assets/images/logo.svg'
@@ -13,8 +14,8 @@ import '../styles/user-lists.scss'
 
 export function UserLists() {
   const history = useHistory()
-  const { user } = useAuth()
-  const { lists, removeList } = useList()
+  const { user, signOut } = useAuth()
+  const { lists, removeList, clearLists } = useList()
 
   function handleCreateShoppingList() {
     history.push('/lists/new')
@@ -28,6 +29,13 @@ export function UserLists() {
     removeList(listId)
   }
 
+  async function handleSignOut() {
+    await signOut()
+    clearLists()
+
+    history.replace('/')
+  }
+
   return (
     <div id="page-user-lists">
       <header>
@@ -38,6 +46,13 @@ export function UserLists() {
             <Button isOutlined onClick={handleCreateShoppingList}>
               Criar lista de compras
             </Button>
+            <button
+              type="button"
+              className="exit-button"
+              onClick={handleSignOut}
+            >
+              <RiLogoutBoxRLine />
+            </button>
           </div>
         </div>
       </header>
